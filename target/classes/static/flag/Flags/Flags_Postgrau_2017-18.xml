@@ -1,0 +1,13 @@
+<FLAG_LIST>
+  <FLAG Name="MostrarTasas"     Value="S" />
+  <FLAG Name="MostrarActas"     Value="S" />
+  <FLAG Name="MostrarHorarios"  Value="S"/>
+  <FLAG Name="MostrarGuias"     Value="S"/>
+  <FLAG Name="MostrarGrupsAss"  Value="S"/>
+  <FLAG Name="GrupsAssProvisionals" Value="N"/>
+  <FLAG Name="MostrarPestanyaPrf" Value="S"/>
+  <FLAG Name="MostrarDataPubGuies" Value="N"/>
+  <!-- Menu='A': Antic; Menu='N': New -->
+  <FLAG Name="Menu" Value="N"/>
+  <FLAG Name="MenuPHD" Value="P"/>
+</FLAG_LIST>

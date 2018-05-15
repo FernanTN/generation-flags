@@ -1,0 +1,14 @@
+<FLAG_LIST>
+  <!-- MostrarDocenciaGrauFitxa: 
+       Hi ha un moment en el temps (aprox de setembre a mitjans octubre) que no ha de sortir la docencia de grau, però sí la de màster
+       perquè realment s'ha tancat un any acadèmic de grau, però no de màster.
+       En aquest cas, el paràmetre mostrarDocenciaGrauFitxa='N' i per tant, no s'ha de mostrar el grau de l'any tancat.
+  -->
+  <FLAG Name="MostrarDocenciaGrauFitxa" Value="S" />
+  <!-- MostrarTutoriesDobles: 
+  any_academic <> darrer_any_academic_definit (encurs,noucurs) però ja s'ha tancat el curs encurs (per grau).
+  No s'ha de mostrar tutoria any passat (encurs). Value="N"
+  Altre cas (un únic any acadèmic a estructura o dos anys però es pinta tota la info). Value="S" 
+  -->
+  <FLAG Name="MostrarTutoriesDobles" Value="S"/>
+</FLAG_LIST>

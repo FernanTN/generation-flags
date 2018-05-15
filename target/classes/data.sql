@@ -1,0 +1,7 @@
+INSERT INTO Generation (id, name, year, mode, version, upD) VALUES ('1', 'Grau', null, null, 0, 0)
+INSERT INTO Generation (id, name, year, mode, version, upD) VALUES ('2', 'Master', null, null, 0, 0)
+INSERT INTO GENERATIONFLAG (name, INIT_DATE, END_DATE, value, ID_GEN_ID, version) VALUES ('MostrarTasas', CURRENT_TIMESTAMP(), DATEADD('DAY',5, CURRENT_TIMESTAMP()), null, '1', 0)
+INSERT INTO GENERATIONFLAG (name, INIT_DATE, END_DATE, value, ID_GEN_ID, version) VALUES ('MostrarHorarios', CURRENT_TIMESTAMP(), DATEADD('DAY',7, CURRENT_TIMESTAMP()), null, '2', 0)
+INSERT INTO GENERATIONFLAG (name, INIT_DATE, END_DATE, value, ID_GEN_ID, version) VALUES ('HorariosProvisionales', DATEADD('DAY',2, CURRENT_TIMESTAMP()), DATEADD('DAY',6, CURRENT_TIMESTAMP()), null, '1', 0)
+INSERT INTO GENERATIONFLAG (name, INIT_DATE, END_DATE, value, ID_GEN_ID, version) VALUES ('PublicarNumPlazas', DATEADD('DAY',2, CURRENT_TIMESTAMP()), DATEADD('DAY',2, CURRENT_TIMESTAMP()), null, '2', 0)
+INSERT INTO GENERATIONFLAG (name, INIT_DATE, END_DATE, value, ID_GEN_ID, version) VALUES ('MostrarActas', CURRENT_TIMESTAMP(), DATEADD('DAY',1, CURRENT_TIMESTAMP()), null, '1', 0)

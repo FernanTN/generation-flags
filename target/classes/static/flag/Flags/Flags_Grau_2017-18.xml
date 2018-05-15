@@ -1,0 +1,26 @@
+<FLAG_LIST>
+  <FLAG  Name="MostrarTasas"             Value="S" /> <!-- S: 28/05/2017 -->
+  <FLAG  Name="MostrarHorarios"          Value="S" /> <!-- S: 30/05/2017 -->
+  <FLAG  Name="HorariosProvisionales"    Value="N" />  
+  <FLAG  Name="PublicarNumPlazas"        Value="S" /> <!-- S: 15/05/2017 -->
+  <FLAG  Name="MostrarActas"             Value="S" /> <!-- Guies docents --> <!-- S: 30/05/2017 -->
+  <FLAG  Name="NotasDeCorteActualizadas" Value="N" />
+  <FLAG  Name="MostrarDataPubHoraris"    Value="N" /> <!-- N: 30/05/2017 -->
+  <FLAG  Name="MostrarDataPubGuies"      Value="N" /> <!-- N: 30/05/2017 -->
+  <FLAG  Name="MostrarGrupAss"		     Value="S"/> <!-- S: 19/06/2017 -->
+  <FLAG  Name="GrupAssProvisionales"     Value="N"/> <!-- N: 30/05/2017 --> 
+  <FLAG  Name="MostrarProfessorat"       Value="S"/> <!-- S: 30/05/2017 -->
+  <PAGINA_LIST Codi="per_pla">
+    <PAGINA Url="index.html" VisibleEnCurs="N"/>
+    <PAGINA Url="resultats.html" VisibleEnCurs="N"/>
+    <PAGINA Url="admissioIMatricula.html" VisibleEnCurs="N"/>
+    <PAGINA Url="reconeixements.html" VisibleEnCurs="N"/> 
+    <PAGINA Url="assignatures.html" VisibleEnCurs="S"/>
+    <PAGINA Url="professorat.html" VisibleEnCurs="S"/>    
+    <PAGINA Url="mesInformacio.html" VisibleEnCurs="N"/>
+    <!-- 
+    <PAGINA Url="horaris.html" />
+    <PAGINA Url="resum.html" />
+     -->      
+  </PAGINA_LIST>   
+</FLAG_LIST>
