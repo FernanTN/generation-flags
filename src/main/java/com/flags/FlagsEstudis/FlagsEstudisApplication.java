@@ -16,6 +16,7 @@ public class FlagsEstudisApplication {
 		SpringApplication.run(FlagsEstudisApplication.class, args);
 	}
 	
+	// Afegim el tag eTag a la capcelera de les respostes
 	@Bean
     public Filter filter(){
         ShallowEtagHeaderFilter filter = new ShallowEtagHeaderFilter();

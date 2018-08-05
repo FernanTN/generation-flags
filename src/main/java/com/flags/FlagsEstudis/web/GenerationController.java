@@ -35,11 +35,13 @@ public class GenerationController {
 	@Autowired
 	GenerationFlagsRepository repositoryFlag;
 
+	// Metode per recuperar tot el que hi ha a la base de dades
 	@RequestMapping
 	public ResponseEntity<Collection<Generation>> showAll() {
 		return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
 	}
 
+	// Metode per inserir una nova generacio
 	@RequestMapping(path = "/insert", method = RequestMethod.POST)
 	public ResponseEntity<Generation> insert(@Valid @RequestBody @RequestParam(name = "name") String name) {
 		Generation generation = new Generation(name, null, null, null);
@@ -51,6 +53,7 @@ public class GenerationController {
 		}
 	}
 
+	// Metode per recuperar una generacio per un id donat
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Generation> showOne(@PathVariable(name = "id") String id) {
 		Generation generation = repository.findOne(id);
@@ -60,6 +63,7 @@ public class GenerationController {
 		return ResponseEntity.ok().eTag("\"" + generation.getVersion() + "\"").body(generation);
 	}
 
+	// Metode per recuperar una generacio per un nom donat
 	@RequestMapping(path = "/name/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Generation> showName(@PathVariable(name = "id") String id) {
 		Generation generation = repository.findByName(id);
@@ -69,6 +73,7 @@ public class GenerationController {
 		return ResponseEntity.status(HttpStatus.OK).eTag("\"" + generation.getVersion() + "\"").body(generation);
 	}
 
+	// Metode per eliminar una generacio per un id donat
 	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Generation> deleteOne(@PathVariable(name = "id") String id) {
 		Generation generation = repository.findOne(id);
@@ -80,20 +85,22 @@ public class GenerationController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	// Metode per inserir un nou flag de una generacio donada
 	@RequestMapping(path = "/insertFlag", method = RequestMethod.POST)
 	public ResponseEntity<Generation> insertFlag(WebRequest request, @Valid @RequestBody @RequestParam(name = "id") String id,
 			@RequestParam(name = "name") String name, @RequestParam(name = "initDate") String initDateS,
 			@RequestParam(name = "endDate") String endDateS, @RequestParam(name = "value") String value) {
 		Generation generation = repository.findOne(id);
-		// log.info("Hemos llamado a esto: {}", name, endDateS);
 		// Si falten els paràmetres
 		if (generation == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
+		// Si el camp eTag esta buit, enviam bad_request
 		String ifMatchValue = request.getHeader("If-Match");
 		if (ifMatchValue.equals("")) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
+		// Comprovem si ha canviat la versio de les dades, si ha canviat enviem el estatus ha fallat
 		if (!ifMatchValue.equals("\"" + generation.getVersion() + "\"")) {
 			return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
 		}
@@ -104,19 +111,21 @@ public class GenerationController {
 			else endDate = null;
 			GenerationFlag flag = new GenerationFlag(name, initDate, endDate, null, generation);
 			repositoryFlag.save(flag);
-			//ñapa para actualizar el campo version
+			// Actulitzem el atribut upD
 			generation.setUpD(generation.getUpD()+1);
 			repository.save(generation);
-			log.info("Hemos llamado a esto : {}", generation.getVersion());
+			// Enviem el eTag i la informacio
 			return ResponseEntity.ok().eTag("\"" + generation.getVersion() + "\"").body(generation);
-//			return new ResponseEntity<>(generation, HttpStatus.OK);
 		} catch (OptimisticLockingFailureException ex) {
+			// Si es produeix un error OptimisticLockException, responem amb un 409
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		} catch (Exception e) {
+			// Si es produix un error, responem bad_request
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
 
+	// Metode per actualitzar els flags de una generacio donada
 	@RequestMapping(path = "/updateFlag", method = RequestMethod.POST)
 	public ResponseEntity<Generation> updateFlag(WebRequest request, @Valid @RequestBody @RequestParam(name = "id") String id,
 			@RequestParam(name = "idFlag") String idFlag, @RequestParam(name = "name") String name,
@@ -125,19 +134,21 @@ public class GenerationController {
 		Generation generation = repository.findOne(id);
 		GenerationFlag flag = repositoryFlag.findOne(idFlag);
 		if (flag == null) {
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
 		}
+		// Si el camp eTag esta buit, enviam bad_request
 		String ifMatchValue = request.getHeader("If-Match");
 		if (ifMatchValue.equals("")) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
-		if (!eTagFlag.equals(flag.toString()) || !ifMatchValue.equals("\"" + generation.getVersion() + "\"")) {
+		// Comprovem si ha canviat la versio de les dades, si ha canviat enviem el estatus ha fallat
+		if (!eTagFlag.equals("\"" + flag.getVersion() + "\"") || !ifMatchValue.equals("\"" + generation.getVersion() + "\"")) {
 			return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
 		}
 		try {
 			LocalDate initDate = LocalDate.parse(initDateS);
 			LocalDate endDate;
+			// Si el camp enDate que rebem a la peticio esta buit, el posem a null
 			if (endDateS != "") endDate = LocalDate.parse(endDateS);
 			else endDate = null;
 			flag.setName(name);
@@ -145,49 +156,55 @@ public class GenerationController {
 			flag.setInitDate(initDate);
 			flag.setEndDate(endDate);
 			repositoryFlag.save(flag);
-			//ñapa para actualizar el campo version
+			// Actulitzem el atribut upD
 			generation.setUpD(generation.getUpD()+1);
 			repository.save(generation);
-			log.info("Hemos llamado a esto : {}", generation.getVersion());
-//			return new ResponseEntity<>(generation, HttpStatus.OK);
+			// Enviem el eTag i la informacio
 			return ResponseEntity.ok().eTag("\"" + generation.getVersion() + "\"").body(generation);
 		} catch (OptimisticLockingFailureException ex) {
+			// Si es produeix un error OptimisticLockException, responem amb un 409
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		} catch (Exception e) {
+			// Si es produix un error, responem bad_request
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
 
+	// Metode per esborrar un flag de una generacio donada
 	@RequestMapping(path = "/deleteFlag", method = RequestMethod.POST)
 	public ResponseEntity<Generation> deleteFlag(WebRequest request, @Valid @RequestBody @RequestParam(name = "id") String id,
 			@RequestParam(name = "idFlag") String idFlag) {
-//		log.info("Hemos llamado a esto : {}", idFlag);
 		Generation generation = repository.findOne(id);
 		GenerationFlag flag = repositoryFlag.findOne(idFlag);
 		if (flag == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		// Si el camp eTag esta buit, enviam bad_request
 		String ifMatchValue = request.getHeader("If-Match");
 		if (ifMatchValue.equals("")) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
+		// Comprovem si ha canviat la versio de les dades, si ha canviat enviem el estatus ha fallat
 		if (!ifMatchValue.equals("\"" + generation.getVersion() + "\"")) {
 			return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
 		}
 		try {
 			repositoryFlag.delete(flag);
-			//ñapa para actualizar el campo version
+			// Actulitzem el atribut upD
 			generation.setUpD(generation.getUpD()+1);
 			repository.save(generation);
+			// Enviem el eTag i la informacio
 			return ResponseEntity.ok().eTag("\"" + generation.getVersion() + "\"").body(generation);
-//			return new ResponseEntity<>(generation, HttpStatus.OK);
 		} catch (OptimisticLockingFailureException ex) {
+			// Si es produeix un error OptimisticLockException, responem amb un 409
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		} catch (Exception e) {
+			// Si es produix un error, responem bad_request
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}
 
+	// Metode per actualitzar els valors de any i mode a la base de dades
 	@RequestMapping(path = "/updateYM", method = RequestMethod.POST)
 	public ResponseEntity<Generation> updateYM(WebRequest request,
 			@Valid @RequestBody @RequestParam(name = "id") String id, @RequestParam(name = "year") String year,
@@ -196,25 +213,29 @@ public class GenerationController {
 		if (generation == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+		// Si el camp eTag esta buit, enviam bad_request
 		String ifMatchValue = request.getHeader("If-Match");
 		if (ifMatchValue.equals("")) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
+		// Comprovem si ha canviat la versio de les dades, si ha canviat enviem el estatus ha fallat
 		if (!ifMatchValue.equals("\"" + generation.getVersion() + "\"")) {
 			return ResponseEntity.status(HttpStatus.PRECONDITION_FAILED).build();
 		}
 		try {
+			// A la base de dades no es pot guardar cap valor buit
 			if (year.equals("")) year = "-";
 			if (mode.equals("")) mode = "-";
-//			log.info("Hemos llamado a esto : {}", generation.getVersion());
 			generation.setYear(year);
 			generation.setMode(mode);
 			repository.save(generation);
-//			return new ResponseEntity<>(generation, HttpStatus.OK);
+			// Enviem el eTag i la informacio
 			return ResponseEntity.ok().eTag("\"" + generation.getVersion() + "\"").body(generation);
 		} catch (OptimisticLockingFailureException ex) {
+			// Si es produeix un error OptimisticLockException, responem amb un 409
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		} catch (Exception e) {
+			// Si es produix un error, responem bad_request
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 	}

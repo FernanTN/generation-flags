@@ -31,6 +31,7 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<!-- Menu de la plana -->
 			<ul class="navbar-nav navbar-sidenav" id="menuGeneration">
 				<li class="nav-item" data-toggle="tooltip" data-placement="right"
 					title="Dashboard"><a class="nav-link" href="index.html"> <i
@@ -51,6 +52,7 @@
 	</nav>
 	<div class="content-wrapper">
 		<div class="container-fluid" id="largura">
+			<!-- Quadre per donar feedback al usuari -->
 			<ol class="done nav-none">
 				<li>Canvi realitzat</li>
 			</ol>
@@ -64,12 +66,14 @@
 				<div class="col-12">
 					<div class="row">
 						<div class="col-sm-4">
+							<!-- Titol de la generecio, que es pinta dinamicament -->
 							<h1>
 								Generació de <span></span>
 							</h1>
 						</div>
 						<div class="col-sm-8">
-							<a id="rmGen" class="btn btn-danger" data-toggle="modal" data-target="#modalGen"><i class="fa fa-trash"></i> Esborrar <span></span></a>
+							<!-- Boto per a esborrar la generacio -->
+							<a id="rmGen" class="btn btn-danger" data-toggle="modal" data-target="#modalGen" onclick="remove();"><i class="fa fa-trash"></i> Esborrar <span></span></a>
 						</div>
 					</div>
 					<p>Flags per a la generació de <span></span></p>
@@ -84,31 +88,33 @@
 					<div class="col-sm-2">
 						<label for="mode">Mode</label> <select class="form-control" name="mode" id="mode" pattern="Normal|Transicio"></select>
 					</div>
-			</form>
-		</div>
-		</br>
-		<h2>Flags</h2>
-		<div class="table-responsive">
-			<div class="form-row" id="title">
-				<div class="form-group col">Nom*</div>
-				<div class="form-group col">Data inici*</div>
-				<div class="form-group col">Data fi</div>
-				<div class="form-group col">Valor</div>
-				<div class="form-group col oculta">&nbsp;</div>
-			</div>
-			<div id="dataTable"></div>
-			<form id="addFormFlag">
-				<div class="form-row">
-					<div class="form-group col"><input type="text" name="name" id="name" required pattern="[A-Za-z_-]+"/></div>
-					<div class="form-group col"><input type="date" name="initDate" id="initDate" required /></div>
-					<div class="form-group col"><input type="date" name="endDate" id="endDate" /></div>
-					<div class="form-group col"><input type="text" name="value" id="value"/></div>
-					<div class="form-group col button"><button id="addFlag" class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> <span class="screen-btn">Afegir</span></button></div>
 				</div>
 			</form>
+			</br>
+			<!-- Taula simulada amb divs per als flags -->
+			<h2>Flags</h2>
+			<div class="table-responsive">
+				<div class="form-row" id="title">
+					<div class="form-group col">Nom*</div>
+					<div class="form-group col">Data inici*</div>
+					<div class="form-group col">Data fi</div>
+					<div class="form-group col">Valor</div>
+					<div class="form-group col oculta">&nbsp;</div>
+				</div>
+				<div id="dataTable"></div>
+				<!-- Formulari per a afegir un nou flag -->
+				<form id="addFormFlag">
+					<div class="form-row">
+						<div class="form-group col"><input type="text" name="name" id="name" required /></div>
+						<div class="form-group col"><input type="date" name="initDate" id="initDate" required /></div>
+						<div class="form-group col"><input type="date" name="endDate" id="endDate" /></div>
+						<div class="form-group col"><input type="text" name="value" id="value"/></div>
+						<div class="form-group col button"><button id="addFlag" class="btn btn-primary" type="submit"><i class="fa fa-plus"></i> <span class="screen-btn">Afegir</span></button></div>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
-	<div id="prova"></div>
 	<!-- /.container-fluid-->
 	<!-- /.content-wrapper-->
 	<footer class="sticky-footer">
@@ -124,7 +130,6 @@
 	</a>
 	<!-- Modal-->
 	<div class="modal fade" id="modalGen" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-<!-- 	<div class="modal fade" id="modalGen" role="dialog"> -->
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -149,13 +154,7 @@
 	<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 	<!-- Custom scripts for all pages-->
 	<script src="js/sb-admin.min.js"></script>
-	<!-- Minified JS library -->
-<!-- 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script> -->
-<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-<!-- 	<script src="http://cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script> -->
-<!-- 	<script src="js/admin-generation.js"></script> -->
+	<!-- Custom scripts for this page-->
 	<script src="js/admin.js"></script>
-<!-- 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-	</div>
 </body>
 </html>

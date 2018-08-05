@@ -26,27 +26,32 @@ public class Generation {
 	@Version
     @NotNull
     @JsonIgnore
-    private int version;
+    private int version; // Atribut per a la concurrencia
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@XmlAttribute
+	// Clau primaria
 	private String id;
 	@XmlAttribute
 	@NotBlank
-	@Size(min=2, max=30, message="La mida ha d'estar entre 2 i 30 caràcters")
+	// Restriccions per a la mida del nom
+	@Size(min=1, max=30, message="La mida ha d'estar entre 1 i 30 caràcters")
 	private String name;
 	@XmlAttribute
+	// Restriccio per nomes inserir un tipus data
 	@Pattern(regexp = "[0-9-]+|[-]", message = "Només s'admeten dates")
 	private String year;
 	@XmlAttribute
+	// Restriccions per al tipus mode
 	@Pattern(regexp = "Normal|Transicio|[-]", message = "Només pot ser 'Normal' o 'Transicio'")
 	private String mode;
 	
 	@OneToMany(mappedBy = "idGen", cascade = CascadeType.ALL)
+	// Clau forana
 	private List<GenerationFlag> flags;
 	
 	@JsonIgnore
-    private int upD;
+    private int upD;		// Atribut per fer que JPA actualitzi el atribut version
 	
 	protected Generation() {}
 	
@@ -55,10 +60,5 @@ public class Generation {
 		this.year = year;
 		this.mode = mode;
 		this.flags = flags;
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("Generation[id=%s, name='%s', flags='%s']", id, name, flags.toString());
 	}
 }

@@ -31,15 +31,13 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
-			<!-- ul class="navbar-nav navbar-sidenav" id="exampleAccordion"-->
+			<!-- Menu de la plana -->
 			<ul class="navbar-nav navbar-sidenav" id="menuGeneration">
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
 					<a class="nav-link" href="index.html">
 						<i class="fa fa-fw fa-dashboard"></i> <span class="nav-link-text">Dashboard</span>
 					</a>
-					<!-- ul class="sidenav-second-level " id="menuGeneration"></ul-->
 				</li>
-
 			</ul>
 			<ul class="navbar-nav sidenav-toggler">
 				<li class="nav-item"><a class="nav-link text-center"
@@ -53,6 +51,7 @@
 	</nav>
 	<div class="content-wrapper">
 		<div class="container-fluid">
+			<!-- Quadre per donar feedback al usuari -->
 			<ol class="done nav-none"><li>Canvi realitzat</li></ol>
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
@@ -60,6 +59,7 @@
 				<li class="breadcrumb-item active">Control de paràmetres</li>
 			</ol>
 			<a id="addGen" class="btn btn-primary" href="#" data-toggle="modal" data-target="#modalGen">Nova generació <i class="fa fa-plus "></i></a>
+			<!-- Taules de les generacions -->
 			<div class="row" id="genTables"></div>
 		</div>
 	</div>
@@ -91,13 +91,12 @@
 					<form id="addForm">
 						<div class="row">
 							<div class="col-9"><input type="text" name="name" id="name" required /></div>
-							<div class="col-2"><button class="btn btn-primary" id="addMod" type="submit" href="#">Afegir</button></div>
+								<div class="col-2"><button class="btn btn-primary" id="addMod" type="submit">Afegir</button></div>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel·lar</button>
-<!-- 					<button class="btn btn-primary"></button> -->
 				</div>
 			</div>
 		</div>
@@ -112,8 +111,6 @@
 	<script src="js/sb-admin.min.js"></script>
 	<!-- Custom scripts for this page-->
 	<script src="js/admin.js"></script>
-<!-- 	<script src="js/admin-index.js"></script> -->
-	</div>
 </body>
 
 </html>

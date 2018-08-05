@@ -3,7 +3,6 @@ package com.flags.FlagsEstudis.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.NotBlank;
 
 import java.time.LocalDate;
@@ -26,17 +25,19 @@ public class GenerationFlag {
 	@Version
     @NotNull
     @XmlAttribute
-    private int version;
+    private int version; // Atribut per a la concurrencia
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@XmlAttribute
+	// Clau primaria
 	private String id;
 	@XmlAttribute
 	@NotBlank
-	@Size(min=2, max=30, message="La mida ha d'estar entre 2 i 30 caràcters")
-	@Pattern(regexp = "[A-Za-z_-]+", message = "Només s'admeten lletres i '-', '_'")
+	// Restriccions per a la mida del nom
+	@Size(min=2, max=30, message="La mida ha d'estar entre 1 i 30 caràcters")
 	private String name;
 	@XmlAttribute
+	// Restriccions per a la mida del camp value
 	@Size(max=100, message="La mida màxima és de 100 caràcters")
 	private String value;
 	@XmlAttribute
@@ -49,8 +50,10 @@ public class GenerationFlag {
 	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "ID_GEN_ID")
+	// Clau forana
 	private Generation idGen;
 	
+	// Funcio per al parametre actiu
 	@XmlAttribute(name = "active")
 	public boolean isActive() {
 		LocalDate now = LocalDate.now();
@@ -65,10 +68,5 @@ public class GenerationFlag {
 		this.initDate = initDate;
 		this.endDate = endDate;
 		this.idGen = idGen;
-	}
-
-	@Override
-	public String toString() {
-		return String.format("\"%d\"", version);
 	}
 }

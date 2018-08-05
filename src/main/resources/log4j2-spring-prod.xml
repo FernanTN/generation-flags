@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30" shutdownHook="disable">
+  <Properties>
+    <Property name="baseDir">$${env:HOME}/logs</Property>
+    <Property name="applicationName">generation-flags</Property>
+  </Properties>
+  <Appenders>
+    <RollingFile name="RollingFile" fileName="${baseDir}/${applicationName}.log"
+      filePattern="${baseDir}/${applicationName}.%d{yyyy-MM-dd}-%i.log"
+    >
+      <PatternLayout pattern="%-5p|%d{ISO8601}{GMT}|%X{token}|%c{1}|%m%ex%n" />
+      <Policies>
+        <OnStartupTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="20 MB" />
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+      <DefaultRolloverStrategy max="10">
+        <!-- Nested conditions: the inner condition is only evaluated on files for which the outer conditions are true. -->
+        <Delete basePath="${baseDir}">
+          <IfFileName glob="${applicationName}.*.log">
+            <IfAny>
+              <IfAccumulatedFileSize exceeds="200 MB" />
+              <IfAccumulatedFileCount exceeds="10" />
+            </IfAny>
+          </IfFileName>
+        </Delete>
+      </DefaultRolloverStrategy>
+    </RollingFile>
+    <Gelf name="gelf"
+          host="tcp:${env:LOGSTASH_PROXY}"
+          port="12201"
+          version="1.0"
+          extractStackTrace="true"
+          filterStackTrace="true"
+          mdcProfiling="true"
+          includeFullMdc="true"
+          maximumMessageSize="8192"
+          originHost="%host"
+          ignoreExceptions="true"
+    >
+      <Field name="timestamp" pattern="%d{dd MMM yyyy HH:mm:ss,SSS}" />
+      <Field name="level" pattern="%level" />
+      <Field name="simpleClassName" pattern="%C{1}" />
+      <Field name="className" pattern="%C" />
+      <Field name="server.simple" pattern="%host{simple}" />
+      <Field name="server.fqdn" pattern="%host{fqdn}" />
+      <Field name="application" literal="${applicationName}" />
+      <Field name="marker" pattern="%marker" />
+      <RegexFilter regex=".*@ConfigurationProperties.*" onMatch="DENY" onMismatch="ACCEPT"/>
+    </Gelf>
+  </Appenders>
+  <Loggers>
+    <Root level="WARN">
+      <AppenderRef ref="RollingFile" />
+      <AppenderRef ref="gelf" />
+    </Root>
+    <Logger name="org.springframework" level="WARN" />
+    <Logger name="org.greeneyed.summer" level="INFO" />
+    <Logger name="es.uib" level="INFO" />
+    <Logger name="org.greeneyed.summer.util.SummerXSLTView" level="ERROR" />
+    <Logger name="com.netflix.config.sources.URLConfigurationSource" level="ERROR" />
+    <Logger name="org.greeneyed.summer.monitoring.LogOperationAspect" level="INFO" />
+
+    <!-- Config Server Issues -->
+    <!-- <Logger name="org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration" level="DEBUG" /> -->
+    <!-- <Logger name="org.springframework.cloud.config.client.ConfigServicePropertySourceLocator" level="DEBUG" /> -->
+    <!-- <Logger name="org.springframework.core.env.CompositePropertySource" level="DEBUG" /> -->
+    <!-- <Logger name="org.springframework.core.env.MapPropertySource" level="DEBUG" /> -->
+    <!-- <Logger name="org.springframework.web.client.RestTemplate" level="DEBUG" /> -->
+  </Loggers>
+</Configuration>

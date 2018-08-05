@@ -25,7 +25,7 @@ public class YearModeController {
     		return new ResponseEntity<>(new ArrayList<YearMode>(yearsmodes.values()), HttpStatus.OK);
     	}
 
-   	//Dades en memòria
+   	//Dades en memoria dels anys 16-17, 17-18 i 18-19 i el mode normal o transicio
 		static {
 			yearsmodes = new HashMap<>();
 			YearMode yearmode = new YearMode();

@@ -5,9 +5,9 @@ import java.util.Collection;
 import org.springframework.data.repository.CrudRepository;
 import com.flags.FlagsEstudis.model.Generation;
 
-//public interface GenerationRepository extends CrudRepository<Generation, String>{
 public interface GenerationRepository extends CrudRepository<Generation, String>{
-    //List<Generation> findByLastName(String lastName);
+	@Override
 	Collection<Generation> findAll();
+	// Cerca una generacio per nom
 	Generation findByName(String name);
 }
